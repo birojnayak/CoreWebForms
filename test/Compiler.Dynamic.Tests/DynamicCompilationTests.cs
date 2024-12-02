@@ -3,6 +3,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Text.Json.Serialization;
+using System.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebForms.Features;
 
@@ -123,6 +125,7 @@ public class DynamicCompilationTests
                         .AddScriptManager()
                         .AddDynamicPages();
                     services.AddSingleton<IDataProtectionProvider, NoopDataProtector>();
+                    services.AddSingleton<IConfigureOptions<SiteMapOptions>, ConfigureSiteMapOptions>();
                 });
             })
             .Start();
