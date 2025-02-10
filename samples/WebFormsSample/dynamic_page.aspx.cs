@@ -4,7 +4,8 @@ using System.Web.UI;
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
-
+using WebFormsSample;
+using System.Data.Entity;
 
 namespace SystemWebUISample.Pages;
 
@@ -34,7 +35,7 @@ public partial class DynamicPage : Page
     {
         var list = new List<Employee>()
         {
-            new Employee { FirstName = "Foo", LastName = "Bar", EmpId = 1000, City = "TestCity", Email="Hello@hello.com", DateOfJoining="01/01/2000"},
+            new Employee { FirstName = "Foo", LastName = "Bar", EmpId = 1000, City = "TestCity", Email="test@test.com", DateOfJoining="01/01/2000"},
             new Employee { FirstName = "FooNext", LastName = "BarNext", EmpId = 1001, City = "TestCity2",Email="Hello@hello.com", DateOfJoining="01/01/2001"},
             new Employee { FirstName = "FooNextNext", LastName = "BarNextNext", EmpId = 1010, City = "TestCity3", Email="Hello@hello.com", DateOfJoining="01/01/2002"},
             new Employee { FirstName = "FooNextNextNext", LastName = "BarNextNextNext", EmpId = 2000, City = "TestCity4", Email="Hello@hello.com",DateOfJoining="01/01/2003"},
@@ -42,6 +43,17 @@ public partial class DynamicPage : Page
         var bindingList = new BindingList<Employee>(list);
         Grid.DataSource = bindingList;
         Grid.DataBind();
+
+        var author = new Author
+        {
+            FirstName = "William",
+            LastName = "Shakespeare"
+        };
+
+        using (var context = new SampleContext())
+        {
+            context.Authors.Add(author); 
+        }
     }
     
     class Employee
@@ -52,6 +64,23 @@ public partial class DynamicPage : Page
         public string City { get; set; }
         public string DateOfJoining { get; set; }
         public string Email { get; set; }
+    }
+
+    public class SampleContext : DbContext
+    {
+        public SampleContext()
+        {
+            Database.SetInitializer<SampleContext>(null);
+        }
+
+        public DbSet<Author>? Authors { get; set; }
+    }
+
+    public class Author
+    {
+        public int AuthorId { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
     }
 
 }
