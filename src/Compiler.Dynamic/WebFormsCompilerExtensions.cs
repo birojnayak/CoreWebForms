@@ -85,8 +85,6 @@ public static class WebFormsCompilerExtensions
             {
                 foreach (var control in metadata.ControlAssemblies)
                 {
-                    string path = control.Location.ToString();
-
                     foreach (var tag in control.GetCustomAttributes<TagPrefixAttribute>())
                     {
                         options.DefaultTagNamespaceRegisterEntries.Add(new(tag.TagPrefix, tag.NamespaceName, control.FullName));
