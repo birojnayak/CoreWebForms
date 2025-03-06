@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 using System.ComponentModel.Design;
 using System.Globalization;
 using System.Reflection;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 using System.Web;
 using System.Web.UI;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.SystemWebAdapters.HttpHandlers;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using WebForms;
 using WebForms.Compiler.Dynamic;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -82,6 +85,8 @@ public static class WebFormsCompilerExtensions
             {
                 foreach (var control in metadata.ControlAssemblies)
                 {
+                    string path = control.Location.ToString();
+
                     foreach (var tag in control.GetCustomAttributes<TagPrefixAttribute>())
                     {
                         options.DefaultTagNamespaceRegisterEntries.Add(new(tag.TagPrefix, tag.NamespaceName, control.FullName));
