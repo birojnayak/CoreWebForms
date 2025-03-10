@@ -2,6 +2,7 @@
 
 using System.Collections.Immutable;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Metadata;
@@ -25,7 +26,7 @@ internal sealed class DynamicControlCollection : ITypeResolutionService, IMetada
     {
         _logger = logger;
         _context = AssemblyLoadContext.Default;
-
+        Console.WriteLine("About to break");
         Initialize();
     }
 
@@ -108,7 +109,7 @@ internal sealed class DynamicControlCollection : ITypeResolutionService, IMetada
         {
             _logger.LogTrace("Searching {Assembly} for tag prefixes", assembly.FullName);
 
-            if (assembly.GetCustomAttributes<TagPrefixAttribute>().Any())
+            if (HasControls(assembly.Location))
             {
                 _logger.LogInformation("Found tag prefixes in {Assembly}", assembly.FullName);
                 ImmutableInterlocked.TryAdd(ref _controls, assemblyName, assembly);

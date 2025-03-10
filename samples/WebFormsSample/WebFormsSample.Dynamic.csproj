@@ -18,4 +18,10 @@
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit">
+      <HintPath>.\AJAXAssemblies\AjaxControlToolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
 </Project>

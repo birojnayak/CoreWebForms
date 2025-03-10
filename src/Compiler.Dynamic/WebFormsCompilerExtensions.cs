@@ -87,9 +87,16 @@ public static class WebFormsCompilerExtensions
             {
                 foreach (var control in metadata.ControlAssemblies)
                 {
-                    foreach (var tag in control.GetCustomAttributes<TagPrefixAttribute>())
+                    if (control.FullName.Contains("ajax", StringComparison.OrdinalIgnoreCase))
                     {
-                        options.DefaultTagNamespaceRegisterEntries.Add(new(tag.TagPrefix, tag.NamespaceName, control.FullName));
+                        options.DefaultTagNamespaceRegisterEntries.Add(new("ajaxToolkit", "AjaxControlToolkit", control.FullName));
+                    }
+                    else
+                    {
+                        foreach (var tag in control.GetCustomAttributes<TagPrefixAttribute>())
+                        {
+                            options.DefaultTagNamespaceRegisterEntries.Add(new(tag.TagPrefix, tag.NamespaceName, control.FullName));
+                        }
                     }
                 }
             });
